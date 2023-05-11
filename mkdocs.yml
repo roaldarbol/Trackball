@@ -1,0 +1,66 @@
+site_name: The Trackball Guide
+site_url: https://trackball.run/
+repo_name: roaldarbol/trackball
+repo_url: https://github.com/roaldarbol/roaldarbol.github.io
+
+# Theme
+theme:
+  name: material
+  include_sidebar: true
+  features:
+    - navigation.sections
+    - navigation.tabs
+    - toc.integrate
+  logo: 'assets/img/mouse-ball.png'
+  icon:
+    repo: 'fontawesome/brands/github'
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/toggle-switch-off-outline
+        name: Switch to dark mode
+    - scheme: slate
+      primary: red
+      accent: red
+      toggle:
+        icon: material/toggle-switch
+        name: Switch to light mode
+
+# ## Custom js files.
+# extra_javascript:
+#   - https://code.jquery.com/jquery-3.5.1.min.js
+#   - https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js
+#   - scripts/site.js
+
+# ## Custom css files.
+# extra_css:
+#   - https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css
+
+plugins:
+  - search
+  - bibtex:
+      cite_style: 'plain'
+      bib_file: 'docs/bibliography.bib'
+      #csl_file: 'docs/apa.csl'
+
+markdown_extensions:
+  - footnotes
+
+# Page tree
+nav:
+    - Overview: 
+        - 'index.md'
+    - Hardware:
+        - 'Type': 'markdown/type.md'
+        - 'Ball support': 'markdown/start.md'
+    - Software:
+        - 'Record motion': 'markdown/motion.md'
+        - 'Virtual Reality': 'markdown/vr.md'
+    - Examples:
+        - 'Wood ants, self-propelled': 'markdown/self-move.md'
+        - 'Wood ants, motorised': 'markdown/motorised.md'
+    - References: 'markdown/start.md'
+    - About:
+        - 'License': 'license.md'
