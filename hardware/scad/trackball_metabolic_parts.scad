@@ -3,6 +3,10 @@ ball_diameter = 50;
 ball_coverage = 1/3;
 cylinder_diameter = 70;
 cylinder_thickness = 2;
+large_cylinder_diameter = 70;
+large_cylinder_thickness = 2;
+small_cylinder_diameter = 40;
+small_cylinder_thickness = 2;
 hose_connector = 9.8;
 magnet_size = [6.1,3];
 opening_d = 35;
@@ -32,8 +36,10 @@ opening_d = 35;
 trackball_floor(
    ball_diameter = ball_diameter,
    ball_coverage = ball_coverage,
-   cylinder_diameter = cylinder_diameter,
-   cylinder_thickness = cylinder_thickness,
+   large_cylinder_diameter = large_cylinder_diameter,
+   large_cylinder_thickness = large_cylinder_thickness,
+   small_cylinder_diameter = small_cylinder_diameter,
+   small_cylinder_thickness = small_cylinder_thickness,
    opening_d = opening_d
 );
 
@@ -276,32 +282,44 @@ module tether_outer(
 module trackball_floor(
     ball_diameter = 50,
     ball_coverage = 1/3,
-    cylinder_diameter = 70,
-    cylinder_thickness = 3,
+    large_cylinder_diameter = 70,
+    large_cylinder_thickness = 2,
+    small_cylinder_diameter = 40,
+    small_cylinder_thickness = 2,
     opening_d = 40
 ){  
     ball_diameter = ball_diameter + 4.5;
-    cylinder_inner_d = cylinder_diameter - (2*cylinder_thickness) - 0.5;
     floor_height = ball_diameter - (ball_diameter*ball_coverage) - (ball_diameter*0.12);
     
-    translate([0,0,ball_diameter/2-ball_diameter*ball_coverage])
-    sphere(d=ball_diameter-4.5);
+    large_cylinder_inner_d = large_cylinder_diameter - (2*large_cylinder_thickness) - 0.5;
+    small_cylinder_inner_d = small_cylinder_diameter - (2*small_cylinder_thickness) - 0.5;
+    
+    // translate([0,0,ball_diameter/2-ball_diameter*ball_coverage])
+    // sphere(d=ball_diameter-4.5);
 
     difference(){
-        cylinder(d=cylinder_inner_d, h=floor_height);
+        cylinder(d=large_cylinder_inner_d, h=floor_height);
         translate([0,0,ball_diameter/2-ball_diameter*ball_coverage])
         sphere(d=ball_diameter);
         
         translate([0,0,ball_diameter/2-ball_diameter*ball_coverage])
         rotate([0,90,0])
-        cylinder(d=cylinder_inner_d/2, h=cylinder_inner_d/2);
+        cylinder(d=large_cylinder_inner_d/2, h=large_cylinder_inner_d/2);
     }
 
     // Make smaller top
-    translate([0,0,0.5*ball_diameter])
+    translate([0,0,0.5*ball_diameter+2])
     difference(){
-        cylinder(h=2, d=cylinder_inner_d);
-        #cylinder(h=2, d=opening_d);
+        cylinder(h=2, d=large_cylinder_inner_d);
+        cylinder(h=3, d=small_cylinder_inner_d);
+    }
+
+    // Extra height to surround the new smaller cylinder
+    // Make smaller top
+    translate([0,0,0.5*ball_diameter+4])
+    difference(){
+        cylinder(h=2, d=large_cylinder_inner_d);
+        cylinder(h=3, d=small_cylinder_diameter);
     }
     
 }
