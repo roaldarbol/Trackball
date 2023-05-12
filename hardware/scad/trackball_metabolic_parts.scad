@@ -1,8 +1,6 @@
-$fn= $preview ? 60 : 100;
+$fn= $preview ? 60 : 200;
 ball_diameter = 50;
 ball_coverage = 1/3;
-cylinder_diameter = 70;
-cylinder_thickness = 2;
 large_cylinder_diameter = 70;
 large_cylinder_thickness = 2;
 small_cylinder_diameter = 40;
@@ -13,40 +11,41 @@ opening_d = 35;
 
 
 // Metabolic rate chamber parts
-// rotate([180,0,0])
+rotate([180,0,0])
 // translate([0,0,-80])
-// trackball_metabolic_top(
-//     cylinder_diameter = cylinder_diameter,
-//     cylinder_thickness = cylinder_thickness,
-//     hose_connector = hose_connector
-//     );
+trackball_metabolic_top(
+    large_cylinder_diameter = large_cylinder_diameter,
+    small_cylinder_diameter = small_cylinder_diameter,
+    small_cylinder_thickness = small_cylinder_thickness,
+    hose_connector = hose_connector
+    );
 //translate([100,0,0])
 // tether_inner(
-//    cylinder_diameter = cylinder_diameter,
-//    cylinder_thickness = cylinder_thickness,
+//    large_cylinder_diameter = small_cylinder_diameter,
+//    large_cylinder_thickness = small_cylinder_thickness,
 //    magnet_size = magnet_size
 //    );
-//translate([0,100,0])
-//tether_outer(
-//    cylinder_diameter = cylinder_diameter,
-//    cylinder_thickness = cylinder_thickness,
+// tether_outer(
+//    large_cylinder_diameter = small_cylinder_diameter,
+//    large_cylinder_thickness = small_cylinder_thickness,
 //    magnet_size = magnet_size
 //    );
 //    translate([0,0,-ball_diameter/2-10])
-trackball_floor(
-   ball_diameter = ball_diameter,
-   ball_coverage = ball_coverage,
-   large_cylinder_diameter = large_cylinder_diameter,
-   large_cylinder_thickness = large_cylinder_thickness,
-   small_cylinder_diameter = small_cylinder_diameter,
-   small_cylinder_thickness = small_cylinder_thickness,
-   opening_d = opening_d
-);
+// trackball_floor(
+//    ball_diameter = ball_diameter,
+//    ball_coverage = ball_coverage,
+//    large_cylinder_diameter = large_cylinder_diameter,
+//    large_cylinder_thickness = large_cylinder_thickness,
+//    small_cylinder_diameter = small_cylinder_diameter,
+//    small_cylinder_thickness = small_cylinder_thickness,
+//    opening_d = opening_d
+// );
 
 // -------- TOP -------- //
 module trackball_metabolic_top(
-    cylinder_diameter = 70,
-    cylinder_thickness = 3,
+    large_cylinder_diameter = 70,
+    small_cylinder_diameter = 40,
+    small_cylinder_thickness = 2,
     hose_connector = 10,
     airduct_diameter = 5,
     extra_height = 15,
@@ -57,8 +56,8 @@ module trackball_metabolic_top(
     inner_height = 20;
     base_height = 10;
     
-    cylinder_inner_d = cylinder_diameter - (2*cylinder_thickness) - 0.5;
-    outer_d = cylinder_diameter + 5;
+    cylinder_inner_d = small_cylinder_diameter - (2*small_cylinder_thickness) - 0.5;
+    outer_d = large_cylinder_diameter + 5;
     
     
     // Main piece
@@ -68,7 +67,7 @@ module trackball_metabolic_top(
             difference(){
                 translate([0,0,base_height/2])
                 rounded_cube(
-                    [cylinder_diameter+5,cylinder_diameter+5,base_height], 
+                    [large_cylinder_diameter+5,large_cylinder_diameter+5,base_height], 
                     radius=4, 
                     outside=true);
 //                cylinder(h=base_height, d=outer_d);
@@ -79,24 +78,24 @@ module trackball_metabolic_top(
             }
             
             // Extra width around hose connector
-            translate([0,-outer_d/2+10,base_height/2]){
+            translate([0,-outer_d/2+5,base_height/2]){
                 sphere(d=hose_connector+10);
                 rotate([90,0,0])
-                cylinder(h=(cylinder_diameter+5)/2-(outer_d/2+10)/2,d=hose_connector+10);
+                cylinder(h=(large_cylinder_diameter)/2-(outer_d/2+15)/2,d=hose_connector+10);
             }
         }
         
         // Remove stuff around cylinder
-        translate([0,0,base_height])
-        difference(){
-            cylinder(d=cylinder_diameter+5, h=100);
-            cylinder(d=cylinder_inner_d, h=100);
-        }
+        // translate([0,0,base_height])
+        // difference(){
+        //     cylinder(d=large_cylinder_diameter+5, h=100);
+        //     cylinder(d=cylinder_inner_d, h=100);
+        // }
         
         // Screw holes
         for (i=[-1,1]){
             for (j=[-1,1]){
-                translate([i*(cylinder_diameter/2 - 5),j*(cylinder_diameter/2 - 5),0]){
+                translate([i*(large_cylinder_diameter/2 - 5),j*(large_cylinder_diameter/2 - 5),0]){
                     cylinder(h=base_height, d=5);
                     cylinder(h=4, d=9);
                 }
@@ -144,11 +143,11 @@ module trackball_metabolic_top(
 
 
 module tether_inner(
-    cylinder_diameter = 70,
-    cylinder_thickness = 3,
+    large_cylinder_diameter = 70,
+    large_cylinder_thickness = 3,
     magnet_size = [6.1,3],
 ){
-    cylinder_inner_d = cylinder_diameter - (2*cylinder_thickness) - 0.5;
+    cylinder_inner_d = large_cylinder_diameter - (2*large_cylinder_thickness) - 0.5;
     sphere_thickness = magnet_size[0]+4;
     base_height = (magnet_size[0]+4)/2;
     
@@ -173,29 +172,29 @@ module tether_inner(
             translate([0,0,base_height])
             difference(){
                 union(){
-                    for (i=[150:60:390]){
+                    for (i=[150:120:390]){
                         intersection(){
                             sphere(d=cylinder_inner_d);
                             rotate([0,0,i])
                             translate([-(sphere_thickness)/2,0,0])
-                            cube([sphere_thickness,cylinder_inner_d,cylinder_inner_d]);
+                            cube([sphere_thickness,cylinder_inner_d/2,cylinder_inner_d]);
                         }
                     }
                     
                     // Handle
-                    translate([0,0,(cylinder_diameter)/2])
-                    rotate([90,0,90])
-                    cylinder(d=15, h=4, center=true);
+                    // translate([0,0,(large_cylinder_diameter)/2])
+                    // rotate([90,0,90])
+                    // cylinder(d=15, h=4, center=true);
                     
-                    intersection(){
-                        sphere(d=cylinder_inner_d);
-                        cylinder(d=20, h=100);
-                    }
+                    // intersection(){
+                    //     sphere(d=cylinder_inner_d);
+                    //     cylinder(d=20, h=100);
+                    // }
                         
                 }
                 sphere(d=cylinder_inner_d - sphere_thickness);
-                translate([0,0,-cylinder_diameter/2])
-                cube(cylinder_diameter, center=true);
+                translate([0,0,-large_cylinder_diameter/2])
+                cube(large_cylinder_diameter, center=true);
             }
             
             // Bottom rim
@@ -204,8 +203,8 @@ module tether_inner(
                 cylinder(h=base_height, d=cylinder_inner_d-sphere_thickness);
                 
                 // Remove front
-                translate([-cylinder_diameter/2,0,0])
-                cylinder(d=cylinder_diameter, h=cylinder_diameter/4, $fn=6);
+                translate([-large_cylinder_diameter/2,0,0])
+                cylinder(d=large_cylinder_diameter, h=large_cylinder_diameter/4, $fn=6);
             }
             
 
@@ -227,7 +226,7 @@ module tether_inner(
     attach_d2 = 4.2;
     attachment_l = 4;
     donut_r = (attach_d1 - attach_d2) /2;
-    translate([0,0,cylinder_diameter/2-base_height])
+    translate([0,0,large_cylinder_diameter/2-base_height])
     union(){
         difference(){
             cylinder(d=attach_d1, h=donut_r);
@@ -241,37 +240,37 @@ module tether_inner(
 }
 
 module tether_outer(
-    cylinder_diameter = 70,
-    cylinder_thickness = 3,
+    large_cylinder_diameter = 70,
+    large_cylinder_thickness = 3,
     magnet_size = [6.2,3],
 ){
     
-    cylinder_diameter = cylinder_diameter + 0.5;
+    large_cylinder_diameter = large_cylinder_diameter + 0.5;
     tether_thickness = magnet_size[1]+3;
-    tether_outer_d = cylinder_diameter + tether_thickness;
+    tether_outer_d = large_cylinder_diameter + tether_thickness;
     
     difference(){
         union(){
-//            cylinder(h=magnet_size[0]*2, d=cylinder_diameter);
+//            cylinder(h=magnet_size[0]*2, d=large_cylinder_diameter);
             for (i=[150:120:390]){
                 rotate([0,0,i])
-                translate([0,cylinder_diameter/2+magnet_size[0],(magnet_size[0]+4)/2])
+                translate([0,large_cylinder_diameter/2+magnet_size[0],(magnet_size[0]+4)/2])
                 rotate([90,0,0])
                 cylinder(h=magnet_size[0], d=magnet_size[0]+4);
             }
             difference(){
                 cylinder(h=magnet_size[0]+4, d=tether_outer_d);
                 // Remove front
-                translate([-cylinder_diameter,0,0])
-                cylinder(d=cylinder_diameter*2, h=cylinder_diameter/4, $fn=6);
+                translate([-large_cylinder_diameter,0,0])
+                cylinder(d=large_cylinder_diameter*2, h=large_cylinder_diameter/4, $fn=6);
             }
         }
         translate([0,0,-1])
-        cylinder(h=magnet_size[0]+6+2, d=cylinder_diameter);
+        cylinder(h=magnet_size[0]+6+2, d=large_cylinder_diameter);
         
         for (i=[150:120:390]){
             rotate([0,0,i])
-            translate([0,cylinder_diameter/2+magnet_size[1],magnet_size[0]-1])
+            translate([0,large_cylinder_diameter/2+magnet_size[1],magnet_size[0]-1])
             rotate([90,0,0])
             cylinder(h=magnet_size[1]+0.5, d=magnet_size[0]+0.2);
         }
