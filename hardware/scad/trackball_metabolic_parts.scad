@@ -11,8 +11,8 @@ opening_d = 35;
 
 
 // Metabolic rate chamber parts
-rotate([180,0,0])
-// translate([0,0,-80])
+// rotate([180,0,0])
+translate([0,0,-80])
 trackball_metabolic_top(
     large_cylinder_diameter = large_cylinder_diameter,
     small_cylinder_diameter = small_cylinder_diameter,
@@ -290,7 +290,7 @@ module trackball_floor(
     ball_diameter = ball_diameter + 4.5;
     floor_height = ball_diameter - (ball_diameter*ball_coverage) - (ball_diameter*0.12);
     
-    large_cylinder_inner_d = large_cylinder_diameter - (2*large_cylinder_thickness) - 0.5;
+    large_cylinder_inner_d = large_cylinder_diameter - (2*large_cylinder_thickness) - 0.3;
     small_cylinder_inner_d = small_cylinder_diameter - (2*small_cylinder_thickness) - 0.5;
     
     // translate([0,0,ball_diameter/2-ball_diameter*ball_coverage])
@@ -318,7 +318,7 @@ module trackball_floor(
     translate([0,0,0.5*ball_diameter+4])
     difference(){
         cylinder(h=2, d=large_cylinder_inner_d);
-        cylinder(h=3, d=small_cylinder_diameter);
+        #cylinder(h=3, d=small_cylinder_diameter+0.4);
     }
     
 }

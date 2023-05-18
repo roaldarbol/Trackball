@@ -31,7 +31,7 @@ trackball_v1(
     hose_connector = hose_connector,
     airduct_diameter = airduct_diameter,
     extra_height = extra_height,
-     magnet_size = magnet_size
+    magnet_size = magnet_size
 );
 //#translate([0,0, ball_diameter/2 + 10 + extra_height])
 //sphere(d=ball_diameter);
@@ -97,7 +97,7 @@ module trackball_v1(
             translate([0,extra_height,-airduct_diameter/2])
             cylinder(d=airduct_diameter, h=base_diameter);
             
-            rotate([90,0,-3*360/8]) 
+            #rotate([90,0,-3*360/8]) 
             translate([0,extra_height,-airduct_diameter/2 + base_diameter/3])
             cylinder(d=hose_connector, h=base_diameter);
             
@@ -142,7 +142,7 @@ module trackball_v1(
             translate([0,0,extra_height])
             cylinder(d=airduct_diameter, h=base_diameter);
             
-            #rotate([90,0,0]) 
+            rotate([90,0,0]) 
             translate([0,extra_height,-airduct_diameter/2])
             cylinder(d=airduct_diameter, h=base_diameter);
             
@@ -151,7 +151,7 @@ module trackball_v1(
             echo(corner);
             
             rotate([90,0,0]) 
-            translate([0, extra_height, cylinder_diameter/2-20])
+            translate([0, extra_height, cylinder_diameter/2-12])
             cylinder(d=hose_connector, h=base_diameter);
             
 //            // Clearance around hose connector
@@ -163,16 +163,16 @@ module trackball_v1(
             translate([0,0,top_height+extra_height])
             difference(){
                 cylinder(d=cylinder_diameter+clearance/2, h=100);
-                #cylinder(d=cylinder_diameter-cylinder_thickness*2, h=100);
+                cylinder(d=cylinder_diameter-cylinder_thickness*2, h=100);
             }
             
             // Screw holes
-            m4_width = 8.0;
-            m4_height = 3.5;
+            m4_width = 10.0;
+            m4_height = 3.8;
             for (i=[-1,1]){
                 for (j=[-1,1]){
                     translate([i*(cylinder_diameter/2 - 5),j*(cylinder_diameter/2 - 5),extra_height+10]){
-                        cylinder(h=top_height+1, d=4);
+                        cylinder(h=top_height+1, d=5);
                         translate([0,0,top_height - m4_height - 3])
                         cylinder(d=m4_width, h=m4_height,$fn=6);
                         
