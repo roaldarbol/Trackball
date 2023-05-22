@@ -12,13 +12,13 @@ opening_d = 35;
 
 // Metabolic rate chamber parts
 // rotate([180,0,0])
-translate([0,0,-80])
-trackball_metabolic_top(
-    large_cylinder_diameter = large_cylinder_diameter,
-    small_cylinder_diameter = small_cylinder_diameter,
-    small_cylinder_thickness = small_cylinder_thickness,
-    hose_connector = hose_connector
-    );
+// translate([0,0,-80])
+// trackball_metabolic_top(
+//     large_cylinder_diameter = large_cylinder_diameter,
+//     small_cylinder_diameter = small_cylinder_diameter,
+//     small_cylinder_thickness = small_cylinder_thickness,
+//     hose_connector = hose_connector
+//     );
 //translate([100,0,0])
 // tether_inner(
 //    large_cylinder_diameter = small_cylinder_diameter,
@@ -31,15 +31,15 @@ trackball_metabolic_top(
 //    magnet_size = magnet_size
 //    );
 //    translate([0,0,-ball_diameter/2-10])
-// trackball_floor(
-//    ball_diameter = ball_diameter,
-//    ball_coverage = ball_coverage,
-//    large_cylinder_diameter = large_cylinder_diameter,
-//    large_cylinder_thickness = large_cylinder_thickness,
-//    small_cylinder_diameter = small_cylinder_diameter,
-//    small_cylinder_thickness = small_cylinder_thickness,
-//    opening_d = opening_d
-// );
+trackball_floor(
+   ball_diameter = ball_diameter,
+   ball_coverage = ball_coverage,
+   large_cylinder_diameter = large_cylinder_diameter,
+   large_cylinder_thickness = large_cylinder_thickness,
+   small_cylinder_diameter = small_cylinder_diameter,
+   small_cylinder_thickness = small_cylinder_thickness,
+   opening_d = opening_d
+);
 
 // -------- TOP -------- //
 module trackball_metabolic_top(
@@ -54,7 +54,7 @@ module trackball_metabolic_top(
 
     outer_height = 10;
     inner_height = 20;
-    base_height = 10;
+    base_height = hose_connector+5;
     
     cylinder_inner_d = small_cylinder_diameter - (2*small_cylinder_thickness) - 0.5;
     outer_d = large_cylinder_diameter + 5;
@@ -65,9 +65,9 @@ module trackball_metabolic_top(
         union(){
             cylinder(h=base_height + inner_height, d=cylinder_inner_d);
             difference(){
-                translate([0,0,base_height/2])
+                translate([0,0,(base_height-5)/2])
                 rounded_cube(
-                    [large_cylinder_diameter+5,large_cylinder_diameter+5,base_height], 
+                    [large_cylinder_diameter+5,large_cylinder_diameter+5,hose_connector+5], 
                     radius=4, 
                     outside=true);
 //                cylinder(h=base_height, d=outer_d);
@@ -93,9 +93,9 @@ module trackball_metabolic_top(
         // }
         
         // Screw holes
-        for (i=[-1,1]){
+        #for (i=[-1,1]){
             for (j=[-1,1]){
-                translate([i*(large_cylinder_diameter/2 - 5),j*(large_cylinder_diameter/2 - 5),0]){
+                translate([i*(large_cylinder_diameter/2 - 5),j*(large_cylinder_diameter/2 - 5),-5/2]){
                     cylinder(h=base_height, d=5);
                     cylinder(h=4, d=9);
                 }
@@ -318,7 +318,7 @@ module trackball_floor(
     translate([0,0,0.5*ball_diameter+4])
     difference(){
         cylinder(h=2, d=large_cylinder_inner_d);
-        #cylinder(h=3, d=small_cylinder_diameter+0.4);
+        cylinder(h=3, d=small_cylinder_diameter+0.4);
     }
     
 }
