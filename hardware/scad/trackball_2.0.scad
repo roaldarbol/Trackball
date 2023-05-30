@@ -20,21 +20,7 @@ cylinder_thickness = 2;
 sensor_dist = 15;
 
 
-// === GENERATE THE DAMN THING === //
-trackball_v1(
-    ball_diameter = ball_diameter, 
-    ball_coverage = ball_coverage,
-    sensor_dist = sensor_dist,
-    metabolic_chamber = metabolic_chamber,
-    cylinder_diameter = cylinder_diameter,
-    cylinder_thickness = cylinder_thickness,
-    hose_connector = hose_connector,
-    airduct_diameter = airduct_diameter,
-    extra_height = extra_height,
-    magnet_size = magnet_size
-);
-//#translate([0,0, ball_diameter/2 + 10 + extra_height])
-//sphere(d=ball_diameter);
+
 
 
 
@@ -167,8 +153,8 @@ module trackball_v1(
             }
             
             // Screw holes
-            m4_width = 10.0;
-            m4_height = 3.8;
+            m4_width = 8.5;
+            m4_height = 3.5;
             for (i=[-1,1]){
                 for (j=[-1,1]){
                     translate([i*(cylinder_diameter/2 - 5),j*(cylinder_diameter/2 - 5),extra_height+10]){
