@@ -153,7 +153,7 @@ module trackball_v1(
             }
             
             // Screw holes
-            m4_width = 8.5;
+            m4_width = 8.6;
             m4_height = 3.5;
             for (i=[-1,1]){
                 for (j=[-1,1]){

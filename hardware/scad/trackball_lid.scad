@@ -21,7 +21,7 @@ module trackball_metabolic_top(
 ){
 
     outer_height = 10;
-    inner_height = 10;
+    inner_height = 5;
     base_height = hose_connector+5;
     
     cylinder_inner_d = small_cylinder_diameter - (2*small_cylinder_thickness) - 0.2;
@@ -39,9 +39,21 @@ module trackball_metabolic_top(
                     radius=4, 
                     outside=true);
 //                cylinder(h=base_height, d=outer_d);
+
                 // Acrylic cylinder for metabolic rate
                 translate([0,0,base_height])
                 cylinder(d=cylinder_inner_d, h=100);
+
+                // Field of view
+                for (i=[-90,0,90]){
+                    rotate([0,0,i])
+                    translate([0,(large_cylinder_diameter+5)*0.92,(base_height-5)/2])
+                    rotate([0,0,45])
+                    rounded_cube(
+                        [large_cylinder_diameter+5,large_cylinder_diameter+5,hose_connector+5], 
+                        radius=4, 
+                        outside=true);
+                }
                 
             }
             
@@ -65,7 +77,7 @@ module trackball_metabolic_top(
             for (j=[-1,1]){
                 translate([i*(large_cylinder_diameter/2 - 5),j*(large_cylinder_diameter/2 - 5),-5/2]){
                     cylinder(h=base_height, d=5);
-                    cylinder(h=base_height-4, d=9);
+                    cylinder(h=5, d=9);
                 }
             }
         }
@@ -107,50 +119,6 @@ module trackball_metabolic_top(
 //            }
             
     }
-}
-
-module trackball_floor(
-    ball_diameter = 50,
-    ball_coverage = 1/3,
-    large_cylinder_diameter = 70,
-    large_cylinder_thickness = 2,
-    small_cylinder_diameter = 40,
-    small_cylinder_thickness = 2
-){  
-    ball_diameter = ball_diameter + 4.5;
-    floor_height = ball_diameter - (ball_diameter*ball_coverage) - (ball_diameter*0.12);
-    
-    large_cylinder_inner_d = large_cylinder_diameter - (2*large_cylinder_thickness) - 0.3;
-    small_cylinder_inner_d = small_cylinder_diameter - (2*small_cylinder_thickness) - 0.5;
-    
-    // translate([0,0,ball_diameter/2-ball_diameter*ball_coverage])
-    // sphere(d=ball_diameter-4.5);
-
-    difference(){
-        cylinder(d=large_cylinder_inner_d, h=floor_height);
-        translate([0,0,ball_diameter/2-ball_diameter*ball_coverage])
-        sphere(d=ball_diameter);
-        
-        translate([0,0,ball_diameter/2-ball_diameter*ball_coverage])
-        rotate([0,90,0])
-        cylinder(d=large_cylinder_inner_d/2, h=large_cylinder_inner_d/2);
-    }
-
-    // Make smaller top
-    translate([0,0,0.5*ball_diameter+2])
-    difference(){
-        cylinder(h=2, d=large_cylinder_inner_d);
-        cylinder(h=3, d=small_cylinder_inner_d);
-    }
-
-    // Extra height to surround the new smaller cylinder
-    // Make smaller top
-    translate([0,0,0.5*ball_diameter+4])
-    difference(){
-        cylinder(h=2, d=large_cylinder_inner_d);
-        cylinder(h=3, d=small_cylinder_diameter+0.4);
-    }
-    
 }
     
 
