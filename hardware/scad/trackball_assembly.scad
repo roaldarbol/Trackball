@@ -70,18 +70,15 @@ sensor_dist = 15;
 //     );
 
 // translate([0,0,80+(-ball_diameter/2-10)])
-intersection(){
-    rotate([180,0,0])
-    trackball_floor(
-   ball_diameter = ball_diameter,
-   ball_coverage = ball_coverage,
-   large_cylinder_diameter = large_cylinder_diameter,
-   large_cylinder_thickness = large_cylinder_thickness,
-   small_cylinder_diameter = small_cylinder_diameter,
-   small_cylinder_thickness = small_cylinder_thickness
+rotate([180,0,0])
+trackball_floor(
+    ball_diameter = ball_diameter,
+    ball_coverage = ball_coverage,
+    large_cylinder_diameter = large_cylinder_diameter,
+    large_cylinder_thickness = large_cylinder_thickness,
+    small_cylinder_diameter = small_cylinder_diameter,
+    small_cylinder_thickness = small_cylinder_thickness
     );
-    cylinder(h=200, d=55, center=true);
-}
 // trackball_floor(
 //    ball_diameter = ball_diameter,
 //    ball_coverage = ball_coverage,
