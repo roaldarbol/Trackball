@@ -6,6 +6,7 @@ module tether_inner(
     field_of_view = 120,
     n_magnets = 4,
     magnet_size = [6.1,3],
+    adjustment = 0
 ){
     fov_margin = 20;
     not_fov = 360 - field_of_view - 2*fov_margin;
@@ -25,8 +26,10 @@ module tether_inner(
             // cylinder(d=10, h=base_height, center=true);
         }
         // Syringe tip attachment
-        cylinder(d=3.2, h=base_height+1, center=true);
-        cube([7,1.4,base_height*2], center=true);
+        translate([0,adjustment,0]){
+            cylinder(d=3.2, h=base_height+1, center=true);
+            cube([7,1.4,base_height*2], center=true);
+        }
 
         // Magnets
         for (i=[-not_fov/2:not_fov/(n_magnets-1):not_fov/2]){
@@ -163,6 +166,8 @@ module tether_outer(
     cylinder_diameter = cylinder_diameter + 0.5;
     tether_thickness = magnet_size[1]+3;
     tether_outer_d = cylinder_diameter + tether_thickness;
+    extra_height = 5;
+    o_ring_d = 3;
     
     difference(){
         union(){
@@ -174,15 +179,18 @@ module tether_outer(
                 cylinder(h=magnet_size[0], d=magnet_size[0]+4);
             }
             difference(){
-                cylinder(h=magnet_size[0]+4, d=tether_outer_d, center=true);
+                translate([0,0,extra_height/2])
+                cylinder(h=magnet_size[0]+4+extra_height, d=tether_outer_d, center=true);
+                translate([0,0,(magnet_size[0]+4+extra_height)/2])
+                o_ring(outer_diam = tether_outer_d, ring_diam = o_ring_d);
                 // Remove front
                 translate([0,0,-(magnet_size[0]+5)/2])
-                pie_slice(field_of_view, cylinder_diameter, magnet_size[0]+5);
+                pie_slice(field_of_view, cylinder_diameter, magnet_size[0]+5+extra_height);
             }
         }
 
         // Remove center
-        cylinder(h=magnet_size[0]+6+2, d=cylinder_diameter, center=true);
+        cylinder(h=magnet_size[0]+6+2+extra_height*2, d=cylinder_diameter, center=true);
         
         for (i=[-not_fov/2:not_fov/(n_magnets-1):not_fov/2]){
             rotate([0,0,i])

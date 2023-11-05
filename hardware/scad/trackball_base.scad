@@ -50,15 +50,15 @@ module trackball_v1(
     ball_radius = ball_diameter/2;
     top_height = ball_diameter * ball_coverage;
     breakout_corner_radius = 2;
-    base_diameter = ball_diameter + sensor_dist + 2*1; //Makes space for the breakout and and edge
     corner_radius = 4;
-    tyre_diameter = base_diameter/1.5;
-    tyre_radius = tyre_diameter/2;
+    // tyre_diameter = base_diameter/1.5;
+    // tyre_radius = tyre_diameter/2;
     
     clearance = 1;
     
     // STANDARD MODEL 
     if (metabolic_chamber==false){
+        base_diameter = ball_diameter + sensor_dist + 2*1; //Makes space for the breakout and and edge
         corner_coord = base_diameter/2 - corner_radius/2;
         points = [  [corner_coord,corner_coord,0], 
                 [corner_coord,-corner_coord,0], 
@@ -108,6 +108,7 @@ module trackball_v1(
     
     // METABOLIC RATE VERSION
     } else {
+        base_diameter = cylinder_diameter + corner_radius;
         corner_coord = cylinder_diameter/2 - corner_radius + 2*1;
         points = [  [corner_coord,corner_coord,0], 
                     [corner_coord,-corner_coord,0], 
@@ -149,7 +150,7 @@ module trackball_v1(
             translate([0,0,top_height+extra_height])
             difference(){
                 cylinder(d=cylinder_diameter+clearance/2, h=100);
-                cylinder(d=cylinder_diameter-cylinder_thickness*2, h=100);
+                cylinder(d=cylinder_diameter-cylinder_thickness*2-0.2, h=100);
             }
             
             // Screw holes

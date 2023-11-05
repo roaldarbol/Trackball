@@ -26,7 +26,8 @@ module trackball_metabolic_top(
     
     cylinder_inner_d = small_cylinder_diameter - (2*small_cylinder_thickness) - 0.2;
     outer_d = large_cylinder_diameter + 5;
-    
+
+    screw_depth = 10;
     
     // Main piece
     difference(){
@@ -77,7 +78,7 @@ module trackball_metabolic_top(
             for (j=[-1,1]){
                 translate([i*(large_cylinder_diameter/2 - 5),j*(large_cylinder_diameter/2 - 5),-5/2]){
                     cylinder(h=base_height, d=5);
-                    cylinder(h=5, d=9);
+                    cylinder(h=screw_depth, d=9);
                 }
             }
         }
